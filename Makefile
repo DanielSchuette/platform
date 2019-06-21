@@ -1,5 +1,12 @@
-prog:
-	gcc triangle.c -lGL -lGLU -lglut -o prog
+TARGET := bounce
+
+.PHONY: all test clean
+
+all:
+	gcc -lm -lX11 -lGL -lGLU -lglut $(TARGET).c -o prog
+
+test:
+	./prog
 
 clean:
-	rm prog
+	rm prog *.o
