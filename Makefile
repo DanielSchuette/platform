@@ -1,17 +1,23 @@
 # Make the examples.
-TARGET := bounce
-SRC_DIR := examples
+# Most of the compiler flags are `pkg-config --static --libs glfw3`.
+SRC_DIR = src
+BIN     = prog
+SRCS    = $(wildcard $(SRC_DIR)/*.c)
+OBJS    = $(patsubst $(SRC_DIR)/%.c, $(SRC_DIR)/%.o, $(SRCS))
+LIBS    = -lm -lX11 -lglfw -lrt -lxcb -lXau -lGL -lpthread -lXrandr -lXi -ldl
 
 .PHONY: all test clean
 
-all: objs
-	gcc -lm -lX11 -lGL -lGLU -lglut $(SRC_DIR)/$(TARGET).o -o $(TARGET)
+all: $(BIN)
 
-objs: $(SRC_DIR)/$(TARGET).c
-	gcc -c $< -o $(SRC_DIR)/$(TARGET).o
+$(BIN): $(OBJS)
+	gcc $(LIBS) $(OBJS) -o $@
 
-test: $(TARGET)
-	./$<
+$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
+	gcc -c $< -o $@
+
+test: $(BIN)
+	@./$<
 
 clean:
-	rm -f $(TARGET) *.o
+	rm -f $(BIN) $(SRC_DIR)/*.o
