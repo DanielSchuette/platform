@@ -1,12 +1,17 @@
+# Make the examples.
 TARGET := bounce
+SRC_DIR := examples
 
 .PHONY: all test clean
 
-all:
-	gcc -lm -lX11 -lGL -lGLU -lglut $(TARGET).c -o prog
+all: objs
+	gcc -lm -lX11 -lGL -lGLU -lglut $(SRC_DIR)/$(TARGET).o -o $(TARGET)
 
-test:
-	./prog
+objs: $(SRC_DIR)/$(TARGET).c
+	gcc -c $< -o $(SRC_DIR)/$(TARGET).o
+
+test: $(TARGET)
+	./$<
 
 clean:
-	rm prog *.o
+	rm -f $(TARGET) *.o
