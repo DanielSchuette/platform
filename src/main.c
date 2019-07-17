@@ -21,9 +21,10 @@ int main(int argc, char **argv)
     if (!glfwInit())
         fail("unable to initialize OpenGL");
 
-    /* create a window (OpenGL >= 3.3) */
+    /* create a resizable window (OpenGL Core, version >= 3.3) */
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     GLFWwindow *window = glfwCreateWindow(640, 480, "An OpenGL window!", NULL, NULL);
     if (!window)
@@ -35,6 +36,7 @@ int main(int argc, char **argv)
     glfwSetWindowSizeCallback(window, resize_callback);
     gladLoadGL();
 
+    /* event loop */
     while (!glfwWindowShouldClose(window) &&
             glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
         glfwPollEvents();

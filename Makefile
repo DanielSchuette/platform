@@ -1,14 +1,16 @@
-# Make the examples.
-# Most of the compiler flags are `pkg-config --static --libs glfw3`.
+# Make the platformer.
+# The following configuration flags conditionally compile features.
+DEBUG   = -DDEBUG # debugging mode
+CONFIG  = -DCOLORS_ENABLED # colorful terminal output
+
+# source files and compilation flags
 SRC_DIR = src
-BIN     = prog
+BIN     = platform
 SRCS    = $(wildcard $(SRC_DIR)/*.c)
 OBJS    = $(patsubst $(SRC_DIR)/%.c, $(SRC_DIR)/%.o, $(SRCS))
 LIBS    = -lm -lX11 -lglfw -lrt -lxcb -lXau -lGL -lpthread -lXrandr -lXi -ldl
-DEBUG   = -DDEBUG
-CONFIG  = -DCOLORS_ENABLED
 
-.PHONY: all test clean
+.PHONY: all test clean help
 
 all: $(BIN)
 
@@ -23,3 +25,8 @@ test: $(BIN)
 
 clean:
 	rm -f $(BIN) $(SRC_DIR)/*.o
+
+help:
+	@echo "Compile the platformer with 'make all'."
+	@echo "For a non-default build, comment/uncomment"
+	@echo "the appropriate options in './Makefile'."
