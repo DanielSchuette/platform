@@ -5,6 +5,8 @@ BIN     = prog
 SRCS    = $(wildcard $(SRC_DIR)/*.c)
 OBJS    = $(patsubst $(SRC_DIR)/%.c, $(SRC_DIR)/%.o, $(SRCS))
 LIBS    = -lm -lX11 -lglfw -lrt -lxcb -lXau -lGL -lpthread -lXrandr -lXi -ldl
+DEBUG   = -DDEBUG
+CONFIG  = -DCOLORS_ENABLED
 
 .PHONY: all test clean
 
@@ -14,7 +16,7 @@ $(BIN): $(OBJS)
 	gcc $(LIBS) $(OBJS) -o $@
 
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.c
-	gcc -c $< -o $@
+	gcc $(DEBUG) $(CONFIG) -c $< -o $@
 
 test: $(BIN)
 	@./$<
